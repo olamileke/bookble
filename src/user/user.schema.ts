@@ -24,13 +24,13 @@ export class User {
   email: string;
 
   @Prop({ type: Date })
-  email_verified_at: string;
+  email_verified_at?: Date;
 
   @Prop({ type: String, required: true })
   password: string;
 
   @Prop()
-  avatar: string;
+  avatar?: string;
 
   @Prop({ type: Boolean, default: false })
   is_admin: boolean;

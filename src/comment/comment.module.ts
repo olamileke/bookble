@@ -1,18 +1,18 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Book, BookSchema } from './book.schema';
+import { Comment, CommentSchema } from './comment.schema';
 
 @Module({
   imports: [
     MongooseModule.forFeatureAsync([
       {
-        name: Book.name,
+        name: Comment.name,
         useFactory: () => {
-          const schema = BookSchema;
+          const schema = CommentSchema;
           return schema;
         },
       },
     ]),
   ],
 })
-export class BookModule {}
+export class CommentModule {}

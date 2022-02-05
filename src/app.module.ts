@@ -5,6 +5,7 @@ import { bookbleConfig } from './config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './user/user.module';
 import { BookModule } from './book/book.module';
+import { CommentModule } from './comment/comment.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { BookModule } from './book/book.module';
     ),
     UserModule,
     BookModule,
+    CommentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
