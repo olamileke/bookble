@@ -5,7 +5,9 @@ import { bookbleConfig } from './config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(new ValidationPipe({ transform: true }));
+  app.useGlobalPipes(
+    new ValidationPipe({ transform: true, skipMissingProperties: true }),
+  );
   await app.listen(bookbleConfig.port);
 }
 bootstrap();

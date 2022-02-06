@@ -7,4 +7,5 @@ export const bookbleConfig = {
   dbName: process.env.DB_NAME,
   dbPassword: process.env.DB_PASSWORD,
   dbUsername: process.env.DB_USERNAME,
+  jwtSecret: process.env.JWT_SECRET,
 };
