@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { User, UserDocument } from './user.schema';
 import * as bcrypt from 'bcrypt';
 
@@ -13,6 +13,7 @@ export class UserService {
   }
 
   async create(user: User) {
+    user._id = new Types.ObjectId();
     user.password = await bcrypt.hash(user.password, 10);
     return await this.user.create(user);
   }

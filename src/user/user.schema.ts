@@ -1,5 +1,5 @@
 import { Schema, SchemaFactory, Prop } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Schema as MongooseSchema, Types } from 'mongoose';
 import {
   IsString,
   IsBoolean,
@@ -13,34 +13,41 @@ export type UserDocument = User & Document;
 
 @Schema({ timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } })
 export class User {
+  _id: Types.ObjectId;
+
   @IsString()
   @IsDefined()
+  @Prop({ type: String, required: true })
   first_name: string;
 
   @IsString()
   @IsDefined()
+  @Prop({ type: String, required: true })
   last_name: string;
 
   @IsEmail()
   @IsDefined()
   @Prop({
+    type: String,
     unique: true,
   })
   email: string;
 
   @IsDate()
+  @Prop({ type: Date })
   email_verified_at?: Date;
 
   @IsString()
   @IsDefined()
-  @Prop({ select: false })
+  @Prop({ type: String, select: false, required: true })
   password: string;
 
   @IsString()
+  @Prop({ type: String })
   avatar?: string;
 
   @IsBoolean()
-  @Prop({ default: false })
+  @Prop({ type: Boolean, default: false })
   is_admin: boolean;
 }
 
