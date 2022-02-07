@@ -7,6 +7,7 @@ import { tokenConstants } from './token.constants';
 import { TokenController } from './token.controller';
 import { APP_GUARD } from '@nestjs/core';
 import { TokenGuard } from './token.guard';
+import { TokenStrategy } from './token.strategy';
 
 @Module({
   imports: [
@@ -17,7 +18,11 @@ import { TokenGuard } from './token.guard';
       signOptions: { expiresIn: '2d' },
     }),
   ],
-  providers: [TokenService, { provide: APP_GUARD, useClass: TokenGuard }],
+  providers: [
+    TokenService,
+    TokenStrategy,
+    { provide: APP_GUARD, useClass: TokenGuard },
+  ],
   exports: [TokenService],
   controllers: [TokenController],
 })

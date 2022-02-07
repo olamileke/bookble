@@ -39,7 +39,7 @@ export class User {
 
   @IsString()
   @IsDefined()
-  @Prop({ type: String, select: false, required: true })
+  @Prop({ type: String, required: true })
   password: string;
 
   @IsString()

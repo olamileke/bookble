@@ -10,12 +10,12 @@ export class TokenGuard extends AuthGuard('jwt') {
   }
 
   canActivate(context: ExecutionContext) {
-    const guarded = this.reflector.getAllAndOverride<boolean>(IS_GUARDED_KEY, [
-      context.getHandler(),
-      context.getClass(),
-    ]);
+    const unguarded = this.reflector.getAllAndOverride<boolean>(
+      IS_GUARDED_KEY,
+      [context.getHandler(), context.getClass()],
+    );
 
-    if (!guarded) return true;
+    if (unguarded) return true;
     return super.canActivate(context);
   }
 }

@@ -18,7 +18,7 @@ export class TokenController {
     const user = await this.userService.find({ email: credentials.email });
     if (!user) throw new NotFoundException('Incorrect username or password');
 
-    if (!compare(credentials.password, user.password))
+    if (!(await compare(credentials.password, user.password)))
       throw new NotFoundException('Incorrect username or password');
 
     const token = await this.tokenService.generate(user._id);
