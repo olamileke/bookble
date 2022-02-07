@@ -4,6 +4,9 @@ import { TokenService } from './token.service';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { tokenConstants } from './token.constants';
+import { TokenController } from './token.controller';
+import { APP_GUARD } from '@nestjs/core';
+import { TokenGuard } from './token.guard';
 
 @Module({
   imports: [
@@ -14,7 +17,8 @@ import { tokenConstants } from './token.constants';
       signOptions: { expiresIn: '2d' },
     }),
   ],
-  providers: [TokenService],
+  providers: [TokenService, { provide: APP_GUARD, useClass: TokenGuard }],
   exports: [TokenService],
+  controllers: [TokenController],
 })
 export class TokenModule {}

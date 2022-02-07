@@ -3,6 +3,7 @@ import { UserService } from './user.service';
 import { User } from './user.schema';
 import { UserCreatePipe } from './pipes';
 import { TokenService } from 'src/token/token.service';
+import { UnguardedRoute } from 'src/utilities';
 
 @Controller('users')
 export class UserController {
@@ -11,6 +12,7 @@ export class UserController {
     private tokenService: TokenService,
   ) {}
 
+  @UnguardedRoute()
   @Post()
   async create(
     @Body(UserCreatePipe) user: User,
