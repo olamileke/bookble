@@ -4,12 +4,12 @@ WORKDIR usr/src/app
 
 COPY package*.json ./
 
-RUN npm install glob rimraf
-
-RUN npm install
+RUN yarn install
 
 COPY . .
 
-RUN npm run build
+RUN yarn run build
 
-CMD ["npm", "run", "start:dev"]
+EXPOSE 3000
+
+CMD ["yarn", "run", "start:dev"]
