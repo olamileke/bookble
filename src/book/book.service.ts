@@ -9,7 +9,7 @@ export class BookService {
   constructor(@InjectModel(Book.name) private book: Model<BookDocument>) {}
 
   async findOne(filter: { [key: string]: string }) {
-    return await this.book.findOne({ filter });
+    return await this.book.findOne(filter);
   }
 
   async create(user: HydratedDocument<User>, bookDto: Book) {
@@ -21,7 +21,8 @@ export class BookService {
     return book;
   }
 
-  async delete(_id: string) {
-    await this.book.deleteOne({ _id });
+  async delete(book: HydratedDocument<Book>) {
+    book.deleted_at = new Date();
+    return await book.save();
   }
 }

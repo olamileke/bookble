@@ -33,7 +33,7 @@ export class BookController {
     @Param('_id', BookDeletePipe) book: HydratedDocument<Book>,
     @Res({ passthrough: true }) res,
   ) {
-    await book.delete();
-    res.status(204).json({ message: 'book deleted successfully' });
+    await this.bookService.delete(book);
+    res.status(204);
   }
 }
