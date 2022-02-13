@@ -1,11 +1,19 @@
-import { Controller, Post, Body, Res, Put, Query, Param } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Req,
+  Res,
+  Put,
+  Query,
+  Param,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from './user.schema';
-import { UserByIdPipe, UserCreatePipe } from './pipes';
+import { UserCreatePipe } from './pipes';
 import { TokenService } from 'src/token/token.service';
 import { UnguardedRoute } from 'src/utilities';
 import { UpdateUserDto } from './dto';
-import { HydratedDocument } from 'mongoose';
 
 @Controller('users')
 export class UserController {
@@ -20,23 +28,27 @@ export class UserController {
     @Body(UserCreatePipe) user: User,
     @Res({ passthrough: true }) res,
   ) {
-    const new_user = await this.userService.create(user);
+    const newUser = await this.userService.create(user);
     const token = await this.tokenService.generate(String(user._id));
-    res.status(201).json({ user: new_user, token });
+    res
+      .status(201)
+      .json({ message: 'user created successfully', user: newUser, token });
   }
 
   @Put('/:_id')
   async update(
-    @Param('_id', UserByIdPipe) user: HydratedDocument<User>,
+    @Req() req,
     @Body() body: UpdateUserDto,
     @Query('verify_email') verify_email,
-    @Res() res,
+    @Res({ passthrough: true }) res,
   ) {
-    const updated_user = await this.userService.update(
-      user,
+    const updatedUser = await this.userService.update(
+      req.user,
       body,
       verify_email,
     );
-    res.status(200).json({ user: updated_user });
+    res
+      .status(200)
+      .json({ message: 'user updated successfully', user: updatedUser });
   }
 }

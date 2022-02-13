@@ -1,12 +1,12 @@
 import { Schema, SchemaFactory, Prop } from '@nestjs/mongoose';
-import { Document, Schema as MongooseSchema, Types } from 'mongoose';
+import { Document, Types } from 'mongoose';
 import {
   IsString,
   IsBoolean,
   IsEmail,
-  Min,
   IsDate,
   IsDefined,
+  MinLength,
 } from 'class-validator';
 
 export type UserDocument = User & Document;
@@ -39,6 +39,7 @@ export class User {
 
   @IsString()
   @IsDefined()
+  @MinLength(8)
   @Prop({ type: String, required: true })
   password: string;
 
