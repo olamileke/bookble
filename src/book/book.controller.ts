@@ -8,6 +8,8 @@ import {
   Post,
   Get,
   Delete,
+  ParseIntPipe,
+  DefaultValuePipe,
 } from '@nestjs/common';
 import { HydratedDocument } from 'mongoose';
 import { Book } from './book.schema';
@@ -31,7 +33,17 @@ export class BookController {
   }
 
   @Get()
-  async getAll(@Query('admin') admin: boolean) {}
+  async getAll(
+    @Req() req,
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page,
+    @Query('count', new DefaultValuePipe(10), ParseIntPipe) count,
+    @Res({ passthrough: true }) res,
+  ) {
+    const filter = req.user.is_admin ? {} : { author: req.user._id };
+    const skip = (page - 1) * count;
+    const books = await this.bookService.find(filter, skip, count);
+    res.status(200).json({ message: 'books fetched successfully', books });
+  }
 
   @Delete('/:_id')
   async delete(

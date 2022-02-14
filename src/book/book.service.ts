@@ -12,6 +12,14 @@ export class BookService {
     return await this.book.findOne(filter);
   }
 
+  async find(
+    filter: { [key: string]: string },
+    skip: number = 1,
+    limit: number = 10,
+  ) {
+    return await this.book.find(filter).skip(skip).limit(limit);
+  }
+
   async create(user: HydratedDocument<User>, bookDto: Book) {
     const book = await this.book.create({
       ...bookDto,
