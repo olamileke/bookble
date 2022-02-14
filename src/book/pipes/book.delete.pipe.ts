@@ -17,6 +17,7 @@ export class BookDeletePipe implements PipeTransform {
 
   async transform(_id: string) {
     const book = await this.bookService.findOne({ _id });
+    console.log(book);
     if (!book) {
       throw new NotFoundException('book does not exist');
     }

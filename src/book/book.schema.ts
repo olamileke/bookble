@@ -23,8 +23,10 @@ export class Book {
   description: string;
 
   @IsDate()
-  @Prop({ type: Date })
-  deleted_at?: Date;
+  @Prop({ type: Date, default: null })
+  deleted_at: Date | null;
+
+  softDelete: () => void;
 }
 
 export const BookSchema = SchemaFactory.createForClass(Book);

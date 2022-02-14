@@ -22,7 +22,6 @@ export class BookService {
   }
 
   async delete(book: HydratedDocument<Book>) {
-    book.deleted_at = new Date();
-    return await book.save();
+    return await book.softDelete();
   }
 }

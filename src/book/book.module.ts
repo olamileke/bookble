@@ -3,6 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Book, BookSchema } from './book.schema';
 import { BookController } from './book.controller';
 import { BookService } from './book.service';
+import { bookPlugin, softDeletesPlugin } from 'src/utilities/plugins';
 
 @Module({
   imports: [
@@ -11,14 +12,8 @@ import { BookService } from './book.service';
         name: Book.name,
         useFactory: () => {
           const schema = BookSchema;
-          schema.pre('find', function (next) {
-            this.populate('author');
-            next();
-          });
-          schema.post('save', async function (book, next) {
-            await book.populate('author');
-            next();
-          });
+          schema.plugin(bookPlugin);
+          schema.plugin(softDeletesPlugin);
           return schema;
         },
       },

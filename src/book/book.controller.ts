@@ -4,7 +4,9 @@ import {
   Res,
   Body,
   Param,
+  Query,
   Post,
+  Get,
   Delete,
 } from '@nestjs/common';
 import { HydratedDocument } from 'mongoose';
@@ -27,6 +29,9 @@ export class BookController {
       .status(201)
       .json({ message: 'book created successfully', book: newBook });
   }
+
+  @Get()
+  async getAll(@Query('admin') admin: boolean) {}
 
   @Delete('/:_id')
   async delete(
