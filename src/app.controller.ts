@@ -6,6 +6,6 @@ export class AppController {
 
   @Get()
   index(): string {
-    return 'Idk what you expected to find. I am an API.';
+    return 'Idk what you expected to find. I am an API. Continuous Deployment baby.';
   }
 }
