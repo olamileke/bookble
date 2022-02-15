@@ -31,4 +31,4 @@ jobs:
           SSH_HOST: ${{ secrets.SERVER_SSH_HOST }}
 
       - name: Deploy Application
-        run: ssh bots-docker 'cd ../ && cd /home/Olamileke/bots-docker && ./build.sh'
+        run: ssh bots-docker 'cd ../ && cd /home/Olamileke/bots-docker && ./build.sh bookble'
