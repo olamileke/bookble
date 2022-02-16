@@ -9,7 +9,7 @@ import { REQUEST } from '@nestjs/core';
 import { BookService } from '../book.service';
 
 @Injectable()
-export class BookDeletePipe implements PipeTransform {
+export class BookOperationPipe implements PipeTransform {
   constructor(
     private bookService: BookService,
     @Inject(REQUEST) private request,
@@ -17,11 +17,12 @@ export class BookDeletePipe implements PipeTransform {
 
   async transform(_id: string) {
     const book = await this.bookService.findOne({ _id });
-    console.log(book);
+    const isDelete = this.request.method.toLowerCase() === 'delete';
     if (!book) {
       throw new NotFoundException('book does not exist');
     }
-    if (this.request.user.is_admin) {
+
+    if (isDelete && this.request.user.is_admin) {
       return book;
     }
 

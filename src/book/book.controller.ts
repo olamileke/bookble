@@ -10,11 +10,13 @@ import {
   Delete,
   ParseIntPipe,
   DefaultValuePipe,
+  Put,
 } from '@nestjs/common';
 import { HydratedDocument } from 'mongoose';
 import { Book } from './book.schema';
 import { BookService } from './book.service';
-import { BookDeletePipe } from './pipes';
+import { UpdateBookDto } from './dto';
+import { BookOperationPipe } from './pipes';
 
 @Controller('/books')
 export class BookController {
@@ -45,9 +47,21 @@ export class BookController {
     res.status(200).json({ message: 'books fetched successfully', books });
   }
 
+  @Put('/:_id')
+  async update(
+    @Param('_id', BookOperationPipe) book: HydratedDocument<Book>,
+    @Body() body: UpdateBookDto,
+    @Res({ passthrough: true }) res,
+  ) {
+    const updated_book = await this.bookService.update(book, body);
+    res
+      .status(200)
+      .json({ message: 'book updated successfully', book: updated_book });
+  }
+
   @Delete('/:_id')
   async delete(
-    @Param('_id', BookDeletePipe) book: HydratedDocument<Book>,
+    @Param('_id', BookOperationPipe) book: HydratedDocument<Book>,
     @Res({ passthrough: true }) res,
   ) {
     await this.bookService.delete(book);

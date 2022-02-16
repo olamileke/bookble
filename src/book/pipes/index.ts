@@ -1,1 +1,1 @@
-export * from './book.delete.pipe';
+export * from './book.operation.pipe';
