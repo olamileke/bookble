@@ -21,5 +21,6 @@ import { bookPlugin, softDeletesPlugin } from 'src/utilities/plugins';
   ],
   controllers: [BookController],
   providers: [BookService],
+  exports: [BookService],
 })
 export class BookModule {}

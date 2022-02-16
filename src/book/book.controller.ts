@@ -47,6 +47,14 @@ export class BookController {
     res.status(200).json({ message: 'books fetched successfully', books });
   }
 
+  @Get('/:_id')
+  async get(
+    @Param('_id', BookOperationPipe) book: HydratedDocument<Book>,
+    @Res({ passthrough: true }) res,
+  ) {
+    res.status(200).json({ message: 'book fetched successfully', book });
+  }
+
   @Put('/:_id')
   async update(
     @Param('_id', BookOperationPipe) book: HydratedDocument<Book>,
