@@ -15,6 +15,14 @@ export class CommentService {
     return this.comment.findOne(filter);
   }
 
+  async findCommentsByBook(
+    book_id: string,
+    skip: number = 1,
+    limit: number = 1,
+  ) {
+    return await this.comment.find({ book: book_id }).skip(skip).limit(limit);
+  }
+
   async create(
     user: HydratedDocument<User>,
     book: HydratedDocument<Book>,

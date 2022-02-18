@@ -39,5 +39,17 @@ export class CommentController {
   @Get()
   async getAll(
     @Param('book_id', CommentCreatePipe) book: HydratedDocument<Book>,
-  ) {}
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page,
+    @Query('count', new DefaultValuePipe(10), ParseIntPipe) count,
+    @Res({ passthrough: true }) res,
+  ) {
+    const comments = await this.commentService.findCommentsByBook(
+      String(book._id),
+      page,
+      count,
+    );
+    res
+      .status(200)
+      .json({ message: 'comments fetched successfully', comments });
+  }
 }
