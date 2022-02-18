@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Book, BookDocument } from './book.schema';
 import { HydratedDocument, Model, Types } from 'mongoose';
 import { User } from 'src/user/user.schema';
+import { UpdateBookDto } from './dto';
 
 @Injectable()
 export class BookService {
@@ -26,6 +27,14 @@ export class BookService {
       _id: new Types.ObjectId(),
       author: user._id,
     });
+    return book;
+  }
+
+  async update(book: HydratedDocument<Book>, body: UpdateBookDto) {
+    Object.entries(body).forEach(([key, value]) => {
+      book[key] = value;
+    });
+    await book.save();
     return book;
   }
 
