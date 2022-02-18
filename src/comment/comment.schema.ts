@@ -2,7 +2,7 @@ import { Schema, SchemaFactory, Prop } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 import { Book } from 'src/book/book.schema';
 import { User } from 'src/user/user.schema';
-import { IsString, IsDefined, IsNumber } from 'class-validator';
+import { IsString, IsDefined, IsNumber, Max } from 'class-validator';
 
 export type CommentDocument = Comment & Document;
 
@@ -16,6 +16,7 @@ export class Comment {
 
   @IsNumber()
   @IsDefined()
+  @Max(5)
   @Prop({ type: Number, required: true })
   rating: number;
 

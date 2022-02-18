@@ -1,1 +1,1 @@
-export * from './comment.operation.pipe';
+export * from './comment.create.pipe';
