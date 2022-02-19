@@ -1,9 +1,10 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Book, BookSchema } from './book.schema';
 import { BookController } from './book.controller';
 import { BookService } from './book.service';
 import { bookPlugin, softDeletesPlugin } from 'src/utilities/plugins';
+import { CommentModule } from 'src/comment/comment.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { bookPlugin, softDeletesPlugin } from 'src/utilities/plugins';
         },
       },
     ]),
+    forwardRef(() => CommentModule),
   ],
   controllers: [BookController],
   providers: [BookService],

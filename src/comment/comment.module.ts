@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { commentPlugin, softDeletesPlugin } from 'src/utilities/plugins';
 import { Comment, CommentSchema } from './comment.schema';
@@ -19,9 +19,10 @@ import { BookModule } from 'src/book/book.module';
         },
       },
     ]),
-    BookModule,
+    forwardRef(() => BookModule),
   ],
   providers: [CommentService],
   controllers: [CommentController],
+  exports: [CommentService],
 })
 export class CommentModule {}

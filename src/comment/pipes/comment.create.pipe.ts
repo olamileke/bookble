@@ -29,7 +29,7 @@ export class CommentCreatePipe implements PipeTransform {
 
     const book_id = this.request.params['book_id'];
     const user_id = this.request.user['_id'];
-    const comment = this.commentService.findOne({
+    const comment = await this.commentService.findOne({
       book: book_id,
       author: user_id,
     });

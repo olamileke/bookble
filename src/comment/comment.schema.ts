@@ -2,7 +2,7 @@ import { Schema, SchemaFactory, Prop } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 import { Book } from 'src/book/book.schema';
 import { User } from 'src/user/user.schema';
-import { IsString, IsDefined, IsNumber, Max } from 'class-validator';
+import { IsString, IsDefined, IsNumber, Max, IsDate } from 'class-validator';
 
 export type CommentDocument = Comment & Document;
 
@@ -24,6 +24,12 @@ export class Comment {
   @IsDefined()
   @Prop({ type: String, required: true })
   text: string;
+
+  @IsDate()
+  @Prop({ type: Date, default: null })
+  deleted_at: Date | null;
+
+  softDelete: () => void;
 }
 
 export const CommentSchema = SchemaFactory.createForClass(Comment);

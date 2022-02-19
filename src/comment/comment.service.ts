@@ -47,4 +47,10 @@ export class CommentService {
     await comment.save();
     return comment;
   }
+
+  async deleteBookComments(book_id: string) {
+    await this.comment
+      .find({ book: book_id })
+      .updateMany({ deleted_at: new Date() });
+  }
 }

@@ -10,7 +10,7 @@ import { Request } from 'express';
 import { CommentService } from '../comment.service';
 
 @Injectable()
-export class CommentUpdatePipe implements PipeTransform {
+export class CommentOperationPipe implements PipeTransform {
   constructor(
     @Inject(REQUEST) private request: Request,
     private commentService: CommentService,

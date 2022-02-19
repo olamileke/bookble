@@ -4,7 +4,6 @@ import { User, UserSchema } from './user.schema';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { TokenModule } from 'src/token/token.module';
-import { Types } from 'mongoose';
 
 @Module({
   imports: [

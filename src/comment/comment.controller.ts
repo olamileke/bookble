@@ -10,10 +10,11 @@ import {
   ParseIntPipe,
   DefaultValuePipe,
   Put,
+  Delete,
 } from '@nestjs/common';
 import { HydratedDocument } from 'mongoose';
 import { Comment } from './comment.schema';
-import { CommentCreatePipe, CommentUpdatePipe } from './pipes';
+import { CommentCreatePipe, CommentOperationPipe } from './pipes';
 import { Book } from 'src/book/book.schema';
 import { CommentService } from './comment.service';
 import { UpdateCommentDto } from './dto';
@@ -55,7 +56,7 @@ export class CommentController {
 
   @Put('/:_id')
   async update(
-    @Param('_id', CommentUpdatePipe) comment: HydratedDocument<Comment>,
+    @Param('_id', CommentOperationPipe) comment: HydratedDocument<Comment>,
     @Body() commentDto: UpdateCommentDto,
   ) {
     const updatedComment = await this.commentService.update(
@@ -63,5 +64,14 @@ export class CommentController {
       commentDto,
     );
     return { message: 'comment updated successfully', comment: updatedComment };
+  }
+
+  @Delete('/:_id')
+  async delete(
+    @Param('_id', CommentOperationPipe) comment: HydratedDocument<Comment>,
+    @Res({ passthrough: true }) res,
+  ) {
+    await comment.softDelete();
+    res.status(204);
   }
 }
