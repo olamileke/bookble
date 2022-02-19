@@ -9,12 +9,14 @@ import {
   Query,
   ParseIntPipe,
   DefaultValuePipe,
+  Put,
 } from '@nestjs/common';
 import { HydratedDocument } from 'mongoose';
 import { Comment } from './comment.schema';
-import { CommentCreatePipe } from './pipes';
+import { CommentCreatePipe, CommentUpdatePipe } from './pipes';
 import { Book } from 'src/book/book.schema';
 import { CommentService } from './comment.service';
+import { UpdateCommentDto } from './dto';
 
 @Controller('/books/:book_id/comments')
 export class CommentController {
@@ -41,15 +43,25 @@ export class CommentController {
     @Param('book_id', CommentCreatePipe) book: HydratedDocument<Book>,
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page,
     @Query('count', new DefaultValuePipe(10), ParseIntPipe) count,
-    @Res({ passthrough: true }) res,
   ) {
+    const skip = (page - 1) * count;
     const comments = await this.commentService.findCommentsByBook(
       String(book._id),
-      page,
+      skip,
       count,
     );
-    res
-      .status(200)
-      .json({ message: 'comments fetched successfully', comments });
+    return { message: 'comments fetched successfully', comments };
+  }
+
+  @Put('/:_id')
+  async update(
+    @Param('_id', CommentUpdatePipe) comment: HydratedDocument<Comment>,
+    @Body() commentDto: UpdateCommentDto,
+  ) {
+    const updatedComment = await this.commentService.update(
+      comment,
+      commentDto,
+    );
+    return { message: 'comment updated successfully', comment: updatedComment };
   }
 }

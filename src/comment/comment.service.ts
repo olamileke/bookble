@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Comment, CommentDocument } from './comment.schema';
-import { HydratedDocument, Model } from 'mongoose';
+import { HydratedDocument, Model, Types } from 'mongoose';
 import { Book } from 'src/book/book.schema';
 import { User } from 'src/user/user.schema';
+import { UpdateCommentDto } from './dto';
 
 @Injectable()
 export class CommentService {
@@ -33,6 +34,17 @@ export class CommentService {
       author: user._id,
       book: book._id,
     });
+    return comment;
+  }
+
+  async update(
+    comment: HydratedDocument<Comment>,
+    commentDto: UpdateCommentDto,
+  ) {
+    Object.entries(commentDto).forEach(([key, value]) => {
+      comment[key] = value;
+    });
+    await comment.save();
     return comment;
   }
 }
