@@ -10,8 +10,6 @@ RUN yarn install
 
 COPY . .
 
-RUN yarn run build
-
 EXPOSE 3000
 
-CMD ["node", "dist/main"]
+CMD ["yarn", "start:dev"]
