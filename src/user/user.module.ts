@@ -4,6 +4,8 @@ import { User, UserSchema } from './user.schema';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { TokenModule } from 'src/token/token.module';
+import { MailModule } from 'src/mail/mail.module';
+import { UserRegisteredListener } from './listeners/user.registered.listener';
 
 @Module({
   imports: [
@@ -17,9 +19,10 @@ import { TokenModule } from 'src/token/token.module';
       },
     ]),
     forwardRef(() => TokenModule),
+    MailModule,
   ],
   controllers: [UserController],
-  providers: [UserService],
+  providers: [UserService, UserRegisteredListener],
   exports: [UserService],
 })
 export class UserModule {}

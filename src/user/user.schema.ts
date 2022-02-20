@@ -4,7 +4,6 @@ import {
   IsString,
   IsBoolean,
   IsEmail,
-  IsDate,
   IsDefined,
   MinLength,
 } from 'class-validator';
@@ -33,9 +32,8 @@ export class User {
   })
   email: string;
 
-  @IsDate()
-  @Prop({ type: Date })
-  email_verified_at?: Date;
+  @Prop({ type: String })
+  email_verification_token?: String;
 
   @IsString()
   @IsDefined()

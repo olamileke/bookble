@@ -4,6 +4,7 @@ import { HydratedDocument, Model, Types } from 'mongoose';
 import { User, UserDocument } from './user.schema';
 import * as bcrypt from 'bcrypt';
 import { UpdateUserDto } from './dto';
+import { generateToken } from 'src/utilities';
 
 @Injectable()
 export class UserService {
@@ -15,6 +16,7 @@ export class UserService {
 
   async create(user: User) {
     user._id = new Types.ObjectId();
+    user.email_verification_token = generateToken();
     user.password = await bcrypt.hash(user.password, 10);
     return await this.user.create(user);
   }
@@ -24,8 +26,8 @@ export class UserService {
     body: UpdateUserDto,
     verify_email?: boolean,
   ) {
-    if (verify_email && !user.email_verified_at) {
-      user.email_verified_at = new Date();
+    if (verify_email && user.email_verification_token) {
+      delete user.email_verification_token;
     }
     Object.entries(body).forEach(async ([key, value]) => {
       user[key] = key === 'password' ? await bcrypt.hash(value, 10) : value;
