@@ -14,12 +14,15 @@ import { UserCreatePipe } from './pipes';
 import { TokenService } from 'src/token/token.service';
 import { UnguardedRoute } from 'src/utilities';
 import { UpdateUserDto } from './dto';
+import { EventEmitter2 } from 'eventemitter2';
+import { UserRegisteredEvent } from './events';
 
 @Controller('users')
 export class UserController {
   constructor(
     private userService: UserService,
     private tokenService: TokenService,
+    private eventEmitter: EventEmitter2,
   ) {}
 
   @UnguardedRoute()
@@ -30,6 +33,7 @@ export class UserController {
   ) {
     const newUser = await this.userService.create(user);
     const token = await this.tokenService.generate(String(user._id));
+    this.eventEmitter.emit('user.registered', new UserRegisteredEvent(newUser));
     res
       .status(201)
       .json({ message: 'user created successfully', user: newUser, token });

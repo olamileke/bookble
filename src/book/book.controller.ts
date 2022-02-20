@@ -13,6 +13,7 @@ import {
   Put,
 } from '@nestjs/common';
 import { HydratedDocument } from 'mongoose';
+import { CommentService } from 'src/comment/comment.service';
 import { Book } from './book.schema';
 import { BookService } from './book.service';
 import { UpdateBookDto } from './dto';
@@ -20,7 +21,10 @@ import { BookOperationPipe } from './pipes';
 
 @Controller('/books')
 export class BookController {
-  constructor(private bookService: BookService) {}
+  constructor(
+    private bookService: BookService,
+    private commentService: CommentService,
+  ) {}
 
   @Post()
   async create(
@@ -73,6 +77,7 @@ export class BookController {
     @Res({ passthrough: true }) res,
   ) {
     await this.bookService.delete(book);
+    await this.commentService.deleteBookComments(String(book._id));
     res.status(204);
   }
 }

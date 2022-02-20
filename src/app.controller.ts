@@ -8,6 +8,6 @@ export class AppController {
   @UnguardedRoute()
   @Get()
   index(): string {
-    return 'Idk what you expected to find. I am an API.';
+    return 'Idk what you expected to find. I am an API man. Idk anything about a frontend.';
   }
 }
