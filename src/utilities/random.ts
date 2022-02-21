@@ -1,5 +1,7 @@
-export const generateToken = (length: number = 24) => {
-  const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+export const generateRandomToken = (length: number = 24, isNum?: boolean) => {
+  const characters = isNum
+    ? '0123456789'
+    : 'abcdefghijklmnopqrstuvwxyz0123456789';
   let token = '';
 
   for (let i = 1; i < length; i++) {

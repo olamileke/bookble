@@ -1,3 +1,3 @@
 export * from './decorators';
 export * from './validators';
-export * from './token';
+export * from './random';

@@ -12,7 +12,7 @@ import { UserService } from './user.service';
 import { User } from './user.schema';
 import { UserCreatePipe } from './pipes';
 import { TokenService } from 'src/token/token.service';
-import { generateToken, UnguardedRoute } from 'src/utilities';
+import { generateRandomToken, UnguardedRoute } from 'src/utilities';
 import { UpdateUserDto } from './dto';
 import { EventEmitter2 } from 'eventemitter2';
 import { UserRegisteredEvent } from './events';
@@ -32,8 +32,9 @@ export class UserController {
   async create(
     @Body(UserCreatePipe) user: User,
     @Res({ passthrough: true }) res,
+    @Req() req,
   ) {
-    const newUser = await this.userService.create(user);
+    const newUser = await this.userService.create(user, req);
     const token = await this.tokenService.generate(String(user._id));
     this.eventEmitter.emit('user.registered', new UserRegisteredEvent(newUser));
     res
@@ -61,7 +62,7 @@ export class UserController {
   @Post('/:_id/verification-tokens')
   async generateVerificationToken(@Req() req, @Res({ passthrough: true }) res) {
     const user = req.user;
-    user.email_verification_token = generateToken();
+    user.email_verification_token = generateRandomToken();
     await user.save();
     this.eventEmitter.emit('user.registered', new UserRegisteredEvent(user));
     res
