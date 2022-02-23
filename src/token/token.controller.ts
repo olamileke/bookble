@@ -29,7 +29,7 @@ export class TokenController {
   @UnguardedRoute()
   @Post()
   async create(@Body() credentials: CreateTokenDto, @Req() req, @Res() res) {
-    const user = await this.userService.find({ email: credentials.email });
+    const user = await this.userService.findOne({ email: credentials.email });
     if (!user) throw new NotFoundException('Incorrect username or password');
 
     if (!(await compare(credentials.password, user.password)))

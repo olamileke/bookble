@@ -11,7 +11,7 @@ import { Request } from 'express';
 export class UserService {
   constructor(@InjectModel(User.name) private user: Model<UserDocument>) {}
 
-  async find(filter: { [key: string]: string }) {
+  async findOne(filter: { [key: string]: string }) {
     return await this.user.findOne(filter);
   }
 

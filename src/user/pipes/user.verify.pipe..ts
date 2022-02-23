@@ -6,7 +6,7 @@ export class UserVerifyPipe implements PipeTransform {
   constructor(private userService: UserService) {}
 
   async transform(token: string) {
-    const user = await this.userService.find({
+    const user = await this.userService.findOne({
       email_verification_token: token,
     });
 

@@ -15,6 +15,6 @@ export class TokenStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: { sub: string }) {
-    return await this.userService.find({ _id: payload.sub });
+    return await this.userService.findOne({ _id: payload.sub });
   }
 }

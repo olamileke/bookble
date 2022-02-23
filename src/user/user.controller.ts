@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from './user.schema';
-import { UserCreatePipe } from './pipes';
+import { UserCreatePipe, VerifyDevicePipe } from './pipes';
 import { TokenService } from 'src/token/token.service';
 import { generateRandomToken, UnguardedRoute } from 'src/utilities';
 import { UpdateUserDto } from './dto';
@@ -79,5 +79,18 @@ export class UserController {
     user.email_verification_token = undefined;
     await user.save();
     res.status(200).json({ message: 'user verified successfully', user });
+  }
+
+  @UnguardedRoute()
+  @Put('/:_id/devices/:code')
+  async verifyDevice(
+    @Param('code', VerifyDevicePipe) user: HydratedDocument<User>,
+  ) {
+    const { device } = user.device_verification;
+    user.device_verification = undefined;
+    user.devices = [...user.devices, device];
+    await user.save();
+    const token = await this.tokenService.generate(String(user._id));
+    return { message: 'device added successfully', user, token };
   }
 }
