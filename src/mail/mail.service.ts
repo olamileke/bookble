@@ -21,6 +21,20 @@ export class MailService {
     });
   }
 
+  async handleVerifyDeviceMail(user: User) {
+    const mailData = {
+      from: bookbleConfig.mailFrom,
+      to: user.email,
+      subject: 'Bookble: Verify Device',
+      html: '',
+    };
+    await this.sendMail(mailData, 'verify.device.html', {
+      name: user.first_name,
+      code: user.device_verification.code,
+      device: user.device_verification.device,
+    });
+  }
+
   sendMail(
     mailData: { [key: string]: string },
     template: string,

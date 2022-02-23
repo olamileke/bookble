@@ -1,5 +1,5 @@
 import { Schema, SchemaFactory, Prop } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
+import { Document, Types, Schema as MongooseSchema } from 'mongoose';
 import {
   IsString,
   IsBoolean,
@@ -7,6 +7,12 @@ import {
   IsDefined,
   MinLength,
 } from 'class-validator';
+
+class DeviceVerification {
+  code: string;
+  device: string;
+  expires_at: Date;
+}
 
 export type UserDocument = User & Document;
 
@@ -35,6 +41,9 @@ export class User {
   @Prop({ type: String })
   email_verification_token?: String;
 
+  @Prop({ type: MongooseSchema.Types.Mixed })
+  device_verification?: DeviceVerification;
+
   @IsString()
   @IsDefined()
   @MinLength(8)
@@ -48,6 +57,9 @@ export class User {
   @IsBoolean()
   @Prop({ type: Boolean, default: false })
   is_admin: boolean;
+
+  @Prop({ type: [String] })
+  devices: string[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

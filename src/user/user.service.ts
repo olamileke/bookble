@@ -4,20 +4,22 @@ import { HydratedDocument, Model, Types } from 'mongoose';
 import { User, UserDocument } from './user.schema';
 import * as bcrypt from 'bcrypt';
 import { UpdateUserDto } from './dto';
-import { generateToken } from 'src/utilities';
+import { generateRandomToken } from 'src/utilities';
+import { Request } from 'express';
 
 @Injectable()
 export class UserService {
   constructor(@InjectModel(User.name) private user: Model<UserDocument>) {}
 
-  async find(filter: { [key: string]: string }) {
+  async findOne(filter: { [key: string]: string }) {
     return await this.user.findOne(filter);
   }
 
-  async create(user: User) {
+  async create(user: User, request: Request) {
     user._id = new Types.ObjectId();
-    user.email_verification_token = generateToken();
+    user.email_verification_token = generateRandomToken();
     user.password = await bcrypt.hash(user.password, 10);
+    user.devices = [request.headers['user-agent']];
     return await this.user.create(user);
   }
 
@@ -32,6 +34,17 @@ export class UserService {
     Object.entries(body).forEach(async ([key, value]) => {
       user[key] = key === 'password' ? await bcrypt.hash(value, 10) : value;
     });
+    await user.save();
+    return user;
+  }
+
+  async generateDeviceVerification(
+    user: HydratedDocument<User>,
+    device: string,
+  ) {
+    const code = generateRandomToken(8, true);
+    const expires_at = new Date(Date.now() + 900000);
+    user.device_verification = { code, expires_at, device };
     await user.save();
     return user;
   }

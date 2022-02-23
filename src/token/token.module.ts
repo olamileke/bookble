@@ -8,6 +8,8 @@ import { TokenController } from './token.controller';
 import { APP_GUARD } from '@nestjs/core';
 import { TokenGuard } from './token.guard';
 import { TokenStrategy } from './token.strategy';
+import { MailModule } from 'src/mail/mail.module';
+import { VerifyDeviceListener } from './listeners';
 
 @Module({
   imports: [
@@ -17,11 +19,13 @@ import { TokenStrategy } from './token.strategy';
       secret: tokenConstants.secret,
       signOptions: { expiresIn: '2d' },
     }),
+    MailModule,
   ],
   providers: [
     TokenService,
     TokenStrategy,
     { provide: APP_GUARD, useClass: TokenGuard },
+    VerifyDeviceListener,
   ],
   exports: [TokenService],
   controllers: [TokenController],

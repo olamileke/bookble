@@ -7,7 +7,7 @@ export class UserCreatePipe implements PipeTransform {
   constructor(private userService: UserService) {}
 
   async transform(value: User) {
-    const user = await this.userService.find({ email: value.email });
+    const user = await this.userService.findOne({ email: value.email });
 
     if (user) {
       throw new BadRequestException('User with email exists already');
