@@ -1,5 +1,5 @@
 import { Schema, SchemaFactory, Prop } from '@nestjs/mongoose';
-import { Document, Types, Schema as MongooseSchema } from 'mongoose';
+import { Document, Types, Schema as MongooseSchema, Mongoose } from 'mongoose';
 import {
   IsString,
   IsBoolean,
@@ -11,6 +11,11 @@ import {
 class DeviceVerification {
   code: string;
   device: string;
+  expires_at: Date;
+}
+
+class PasswordReset {
+  token: string;
   expires_at: Date;
 }
 
@@ -43,6 +48,9 @@ export class User {
 
   @Prop({ type: MongooseSchema.Types.Mixed })
   device_verification?: DeviceVerification;
+
+  @Prop({ type: MongooseSchema.Types.Mixed })
+  password_reset?: PasswordReset;
 
   @IsString()
   @IsDefined()
