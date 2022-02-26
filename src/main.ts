@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
+import { SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { bookbleConfig } from './config';
 
@@ -12,6 +13,13 @@ async function bootstrap() {
       whitelist: true,
     }),
   );
+  const swaggerDocument = SwaggerModule.createDocument(
+    app,
+    bookbleConfig.swaggerDocumentConfig,
+  );
+  SwaggerModule.setup('/', app, swaggerDocument, {
+    customSiteTitle: 'Bookble Documentation',
+  });
   await app.listen(bookbleConfig.port);
 }
 bootstrap();

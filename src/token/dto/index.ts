@@ -1,4 +1,4 @@
-import { PickType } from '@nestjs/mapped-types';
+import { PickType } from '@nestjs/swagger';
 import { User } from 'src/user/user.schema';
 
 export class CreateTokenDto extends PickType(User, [

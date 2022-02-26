@@ -16,7 +16,7 @@ import { HydratedDocument } from 'mongoose';
 import { CommentService } from 'src/comment/comment.service';
 import { Book } from './book.schema';
 import { BookService } from './book.service';
-import { UpdateBookDto } from './dto';
+import { CreateBookDto, UpdateBookDto } from './dto';
 import { BookOperationPipe } from './pipes';
 
 @Controller('/books')
@@ -30,7 +30,7 @@ export class BookController {
   async create(
     @Req() req,
     @Res({ passthrough: true }) res,
-    @Body() book: Book,
+    @Body() book: CreateBookDto,
   ) {
     const newBook = await this.bookService.create(req.user, book);
     res

@@ -7,6 +7,7 @@ import {
   IsDefined,
   MinLength,
 } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 class DeviceVerification {
   code: string;
@@ -25,16 +26,19 @@ export type UserDocument = User & Document;
 export class User {
   _id: Types.ObjectId;
 
+  @ApiProperty({ type: String })
   @IsString()
   @IsDefined()
   @Prop({ type: String, required: true })
   first_name: string;
 
+  @ApiProperty({ type: String })
   @IsString()
   @IsDefined()
   @Prop({ type: String, required: true })
   last_name: string;
 
+  @ApiProperty({ type: String })
   @IsEmail()
   @IsDefined()
   @Prop({
@@ -52,16 +56,19 @@ export class User {
   @Prop({ type: MongooseSchema.Types.Mixed })
   password_reset?: PasswordReset;
 
+  @ApiProperty()
   @IsString()
   @IsDefined()
   @MinLength(8)
   @Prop({ type: String, required: true })
   password: string;
 
+  @ApiPropertyOptional()
   @IsString()
   @Prop({ type: String })
   avatar?: string;
 
+  @ApiPropertyOptional({ default: false })
   @IsBoolean()
   @Prop({ type: Boolean, default: false })
   is_admin: boolean;
