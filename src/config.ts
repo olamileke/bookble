@@ -1,6 +1,14 @@
 import * as dotenv from 'dotenv';
+import { DocumentBuilder, SwaggerDocumentOptions } from '@nestjs/swagger';
 
 dotenv.config();
+
+const swaggerDocumentConfig = new DocumentBuilder()
+  .setTitle('The Bookble API')
+  .setDescription('The Bookble API documentation')
+  .setVersion('1.0')
+  .addTag('books')
+  .build();
 
 export const bookbleConfig = {
   appName: process.env.APP_NAME,
@@ -13,4 +21,5 @@ export const bookbleConfig = {
   mailFrom: process.env.MAIL_FROM,
   mailDomain: process.env.MAIL_DOMAIN,
   mailgunApiKey: process.env.MAILGUN_API_KEY,
+  swaggerDocumentConfig,
 };

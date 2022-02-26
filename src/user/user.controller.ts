@@ -13,7 +13,7 @@ import { User } from './user.schema';
 import { UserCreatePipe, VerifyDevicePipe } from './pipes';
 import { TokenService } from 'src/token/token.service';
 import { generateRandomToken, UnguardedRoute } from 'src/utilities';
-import { UpdateUserDto } from './dto';
+import { CreateUserDto, UpdateUserDto } from './dto';
 import { EventEmitter2 } from 'eventemitter2';
 import { UserRegisteredEvent } from './events';
 import { UserVerifyPipe } from './pipes';
@@ -30,7 +30,7 @@ export class UserController {
   @UnguardedRoute()
   @Post()
   async create(
-    @Body(UserCreatePipe) user: User,
+    @Body(UserCreatePipe) user: CreateUserDto,
     @Res({ passthrough: true }) res,
     @Req() req,
   ) {

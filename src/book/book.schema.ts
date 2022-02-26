@@ -2,6 +2,7 @@ import { Schema, SchemaFactory, Prop } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 import { User } from 'src/user/user.schema';
 import { IsString, IsDefined, IsDate } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export type BookDocument = Book & Document;
 
@@ -9,14 +10,17 @@ export type BookDocument = Book & Document;
 export class Book {
   _id: Types.ObjectId;
 
+  @ApiProperty({ type: String })
   @Prop({ type: Types.ObjectId, ref: 'User', required: true })
   author: User;
 
+  @ApiProperty()
   @IsString()
   @IsDefined()
   @Prop({ type: String, required: true })
   name: string;
 
+  @ApiProperty()
   @IsString()
   @IsDefined()
   @Prop({ type: String, required: true })

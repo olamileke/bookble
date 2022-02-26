@@ -17,7 +17,7 @@ import { Comment } from './comment.schema';
 import { CommentCreatePipe, CommentOperationPipe } from './pipes';
 import { Book } from 'src/book/book.schema';
 import { CommentService } from './comment.service';
-import { UpdateCommentDto } from './dto';
+import { CreateCommentDto, UpdateCommentDto } from './dto';
 
 @Controller('/books/:book_id/comments')
 export class CommentController {
@@ -26,7 +26,7 @@ export class CommentController {
   @Post()
   async create(
     @Param('book_id', CommentCreatePipe) book: HydratedDocument<Book>,
-    @Body() commentDto: Comment,
+    @Body() commentDto: CreateCommentDto,
     @Req() req,
     @Res({ passthrough: true }) res,
   ) {
