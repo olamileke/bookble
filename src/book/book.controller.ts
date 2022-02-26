@@ -47,8 +47,14 @@ export class BookController {
   ) {
     const filter = req.user.is_admin ? {} : { author: req.user._id };
     const skip = (page - 1) * count;
-    const books = await this.bookService.find(filter, skip, count);
-    res.status(200).json({ message: 'books fetched successfully', books });
+    const { books, pagination } = await this.bookService.find(
+      filter,
+      skip,
+      count,
+    );
+    res
+      .status(200)
+      .json({ message: 'books fetched successfully', books, pagination });
   }
 
   @Get('/:_id')

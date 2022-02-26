@@ -7,9 +7,10 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import { UserModule } from './user/user.module';
 import { BookModule } from './book/book.module';
 import { CommentModule } from './comment/comment.module';
-import { AuthModule } from './auth/auth.module';
 import { TokenModule } from './token/token.module';
 import { MailModule } from './mail/mail.module';
+import { AccountController } from './account/account.controller';
+import { AccountModule } from './account/account.module';
 
 @Module({
   imports: [
@@ -22,11 +23,11 @@ import { MailModule } from './mail/mail.module';
     UserModule,
     BookModule,
     CommentModule,
-    AuthModule,
     TokenModule,
     MailModule,
+    AccountModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, AccountController],
   providers: [AppService],
 })
 export class AppModule {}

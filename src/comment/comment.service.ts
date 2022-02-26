@@ -21,7 +21,19 @@ export class CommentService {
     skip: number = 1,
     limit: number = 1,
   ) {
-    return await this.comment.find({ book: book_id }).skip(skip).limit(limit);
+    const comments = await this.comment
+      .find({ book: book_id })
+      .skip(skip)
+      .limit(limit);
+    const pagination = await this.getPagination(book_id, skip, limit);
+    return { comments, pagination };
+  }
+
+  async getPagination(book_id: string, skip: number, limit: number) {
+    const total = await this.comment.countDocuments({ book_id });
+    const lastPage = Math.ceil(total / limit);
+    const currentPage = skip / limit + 1;
+    return { currentPage, lastPage };
   }
 
   async create(

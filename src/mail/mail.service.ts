@@ -35,6 +35,19 @@ export class MailService {
     });
   }
 
+  async handleResetPasswordMail(user: User) {
+    const mailData = {
+      from: bookbleConfig.mailFrom,
+      to: user.email,
+      subject: 'Bookble: Reset Password',
+      html: '',
+    };
+    await this.sendMail(mailData, 'reset.password.html', {
+      name: user.first_name,
+      token: user.password_reset.token,
+    });
+  }
+
   sendMail(
     mailData: { [key: string]: string },
     template: string,

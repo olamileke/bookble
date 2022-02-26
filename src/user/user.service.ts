@@ -48,4 +48,12 @@ export class UserService {
     await user.save();
     return user;
   }
+
+  async generatePasswordReset(user: HydratedDocument<User>) {
+    const expires_at = new Date(Date.now() + 30 * 60 * 1000);
+    const token = generateRandomToken(120);
+    user.password_reset = { token, expires_at };
+    await user.save();
+    return user;
+  }
 }
