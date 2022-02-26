@@ -46,12 +46,13 @@ export class CommentController {
     @Query('count', new DefaultValuePipe(10), ParseIntPipe) count,
   ) {
     const skip = (page - 1) * count;
-    const comments = await this.commentService.findCommentsByBook(
-      String(book._id),
-      skip,
-      count,
-    );
-    return { message: 'comments fetched successfully', comments };
+    const { comments, pagination } =
+      await this.commentService.findCommentsByBook(
+        String(book._id),
+        skip,
+        count,
+      );
+    return { message: 'comments fetched successfully', comments, pagination };
   }
 
   @Put('/:_id')

@@ -18,7 +18,20 @@ export class BookService {
     skip: number = 1,
     limit: number = 10,
   ) {
-    return await this.book.find(filter).skip(skip).limit(limit);
+    const books = await this.book.find(filter).skip(skip).limit(limit);
+    const pagination = await this.getPagination(filter, skip, limit);
+    return { books, pagination };
+  }
+
+  async getPagination(
+    filter: { [key: string]: string },
+    skip: number,
+    limit: number,
+  ) {
+    const total = await this.book.countDocuments(filter);
+    const lastPage = Math.ceil(total / limit);
+    const currentPage = skip / limit + 1;
+    return { currentPage, lastPage };
   }
 
   async create(user: HydratedDocument<User>, bookDto: Book) {
