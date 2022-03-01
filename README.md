@@ -3,6 +3,7 @@
 ------------
 I've been going through Nest JS and built this as a quick way to get my hands dirty with it. It makes use of a MongoDB database while I am using Mongoose as the ODM (Object Document Mapper) to interface with the underlying MongoDB collections. Its running on one of my side domains [https://bookble.themilestonesapp.xyz](https://bookble.themilestonesapp.xyz "https://bookble.themilestonesapp.xyz").
 
+Installation
 --------------
 Clone the project and cd into the application directory.  Create and copy over the relevant environment variables from the .env.example file with 
 ```
