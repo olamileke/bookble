@@ -1,73 +1,43 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
+### Bookble
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+------------
+I've been going through Nest JS and built this as a quick way to get my hands dirty with it. It makes use of a MongoDB database while I am using Mongoose as the ODM (Object Document Mapper) to interface with the underlying MongoDB collections. Its running on one of my side domains [https://bookble.themilestonesapp.xyz](https://bookble.themilestonesapp.xyz "https://bookble.themilestonesapp.xyz").
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+--------------
+Clone the project and cd into the application directory.  Create and copy over the relevant environment variables from the .env.example file with 
+```
+$ cat .env.example > .env
+```
+Make sure to update the relevant environment variables. I think they are descriptive enough, but if you need clarification, feel free to reach out.
+Install the project dependencies and start a local server with the following terminal commands:
 
-## Description
+```
+$ yarn
+$ yarn start:dev
+```
+Navigate to http://localhost:3000/ to access the application.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+### Build
+-----
+Alternatively, you can run the application as a Docker container. With this, there are two options. Run a production build of the application with Docker by running the following command
+```
+$ docker build -t bookble .
+```
+This will make use of the Dockerfile in the root directory and build a "bookble" image on your system, the Docker host. Alternatively, run a development build of the app with Docker with 
 
-## Installation
+```
+$ docker build -t bookble Dockerfile.dev
+```
+This makes use of the development Dockerfile (Dockerfile.dev) as opposed to the default Dockerfile. Ideally, you typically want to do this in a multi service setup with a docker-compose.yml file with volumes linked so as to develop locally.
 
-```bash
-$ npm install
+Create and run a Docker container based on the bookble image created with
+```
+$ docker run -p 3000:3000 --name bookble -d bookble
 ```
 
-## Running the app
+Once this is done, you can access the application via your local IP address on the 3000 port. So say your local IP address is http://192.168.43.127/, it would be available at http://192.168.43.127:3000. Its accessed on the 3000 port due to the port mapping specified with the docker run command. Run it on a different port of your choosing by simply specifying a different port after the -p option. So to run it on port 5000, it would simply be
 
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+```
+$ docker run -p 5000:9000 --name Yeet  -d Yeet
 ```
 
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
