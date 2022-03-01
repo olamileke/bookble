@@ -39,6 +39,6 @@ $ docker run -p 3000:3000 --name bookble -d bookble
 Once this is done, you can access the application via your local IP address on the 3000 port. So say your local IP address is http://192.168.43.127/, it would be available at http://192.168.43.127:3000. Its accessed on the 3000 port due to the port mapping specified with the docker run command. Run it on a different port of your choosing by simply specifying a different port after the -p option. So to run it on port 5000, it would simply be
 
 ```
-$ docker run -p 5000:9000 --name Yeet  -d Yeet
+$ docker run -p 5000:3000 --name bookble -d bookble
 ```
 
