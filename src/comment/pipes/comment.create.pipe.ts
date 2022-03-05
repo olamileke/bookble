@@ -1,13 +1,8 @@
-import {
-  PipeTransform,
-  Injectable,
-  NotFoundException,
-  Inject,
-  ForbiddenException,
-} from '@nestjs/common';
+import { PipeTransform, Injectable, Inject, HttpStatus } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
 import { BookService } from 'src/book/book.service';
+import { handleException } from 'src/utilities';
 import { CommentService } from '../comment.service';
 
 @Injectable()
@@ -22,7 +17,7 @@ export class CommentCreatePipe implements PipeTransform {
     const book = await this.bookService.findOne({ _id: value });
 
     if (!book) {
-      throw new NotFoundException('book does not exist');
+      handleException(HttpStatus.NOT_FOUND, 'book-001', 'Book does not exist');
     }
 
     if (this.request.method.toLowerCase() === 'get') return book;
@@ -35,7 +30,11 @@ export class CommentCreatePipe implements PipeTransform {
     });
 
     if (comment) {
-      throw new ForbiddenException('user has commented on this book already.');
+      handleException(
+        HttpStatus.BAD_REQUEST,
+        'comment-003',
+        'User has commented on this book already.',
+      );
     }
 
     return book;
