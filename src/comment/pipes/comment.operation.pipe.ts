@@ -25,7 +25,7 @@ export class CommentOperationPipe implements PipeTransform {
       handleException(
         HttpStatus.NOT_FOUND,
         'comment-001',
-        'Comment does not exist',
+        'Comment Does Not Exist',
       );
     }
 
@@ -35,9 +35,9 @@ export class CommentOperationPipe implements PipeTransform {
       handleException(
         HttpStatus.FORBIDDEN,
         'comment-002',
-        'User lacks the required permission.',
+        'User Lacks The Required Permission.',
       );
-      throw new ForbiddenException('user lacks the required permission.');
+      throw new ForbiddenException('User Lacks The Required Permissions.');
     }
 
     return comment;

@@ -19,7 +19,7 @@ export class UserCreatePipe implements PipeTransform {
       handleException(
         HttpStatus.BAD_REQUEST,
         'account-001',
-        'User with email exists already',
+        'User With Email Exists Already',
       );
     }
 

@@ -14,15 +14,15 @@ export class ResetPasswordPipe implements PipeTransform {
     if (!user)
       handleException(
         HttpStatus.BAD_REQUEST,
-        'account-002',
-        'Invalid password reset token',
+        'account-005',
+        'Invalid Password Reset Token',
       );
 
     if (Date.now() > user.password_reset.expires_at.getTime())
       handleException(
         HttpStatus.BAD_REQUEST,
-        'account-003',
-        'Expired password reset token',
+        'account-006',
+        'Expired Password Reset Token',
       );
 
     return user;

@@ -26,20 +26,20 @@ export class TokenController {
       handleException(
         HttpStatus.NOT_FOUND,
         'auth-001',
-        'Incorrect username or password',
+        'Incorrect Username or Password.',
       );
 
     handleException(
       HttpStatus.NOT_FOUND,
       'auth-001',
-      'Incorrect username or password',
+      'Incorrect Username or Password.',
     );
     if (!(await compare(credentials.password, user.password)))
       if (!(await this.isDeviceVerified(user, req))) {
         handleException(
           HttpStatus.BAD_REQUEST,
           'auth-002',
-          'Device is not recognized',
+          'Device Is Not Recognized',
         );
       }
 

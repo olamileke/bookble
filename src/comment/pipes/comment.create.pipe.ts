@@ -17,7 +17,7 @@ export class CommentCreatePipe implements PipeTransform {
     const book = await this.bookService.findOne({ _id: value });
 
     if (!book) {
-      handleException(HttpStatus.NOT_FOUND, 'book-001', 'Book does not exist');
+      handleException(HttpStatus.NOT_FOUND, 'book-001', 'Book Does Not Exist.');
     }
 
     if (this.request.method.toLowerCase() === 'get') return book;
@@ -33,7 +33,7 @@ export class CommentCreatePipe implements PipeTransform {
       handleException(
         HttpStatus.BAD_REQUEST,
         'comment-003',
-        'User has commented on this book already.',
+        'User Has Commented On This Book Already.',
       );
     }
 

@@ -1,4 +1,10 @@
-import { BadRequestException, Injectable, PipeTransform } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpStatus,
+  Injectable,
+  PipeTransform,
+} from '@nestjs/common';
+import { handleException } from 'src/utilities';
 import { UserService } from '../user.service';
 
 @Injectable()
@@ -11,10 +17,18 @@ export class VerifyDevicePipe implements PipeTransform {
     });
 
     if (!user)
-      throw new BadRequestException('Incorrect Device Verification Code');
+      handleException(
+        HttpStatus.BAD_REQUEST,
+        'account-003',
+        'Incorrect Device Verification Code',
+      );
 
     if (Date.now() > user.device_verification.expires_at.getTime())
-      throw new BadRequestException('Expired Device Verification Token');
+      handleException(
+        HttpStatus.BAD_REQUEST,
+        'account-004',
+        'Expired Device Verification Code',
+      );
 
     return user;
   }
