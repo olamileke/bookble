@@ -1,7 +1,7 @@
 ### Bookble
 
 ------------
-I picked up Nest JS and built this as a quick way to get my hands dirty with it. I wanted a more fully fledged alternative to Express. Express always felt like a bunch of packages thrown together. Plus, I like the fact that it has first class Typescript support. Setting up Typescript with Express is an actual pain.
+I picked up Nest JS and built this as a quick way to get my hands dirty with it. I wanted a more fully fledged alternative to Express. Basically, a batteries included Node framework which came out of the box with most of what I could possibly need. Express always felt like a bunch of packages thrown together. Plus, I like the fact that it has first class Typescript support.
 
 It makes use of a MongoDB database while I am using Mongoose via the [@nestjs/mongoose](https://github.com/nestjs/mongoose "@nestjs/mongoose") wrapper as the ODM (Object Document Mapper) to interface with the underlying MongoDB collections. Its running on one of my side domains [https://bookble.themilestonesapp.xyz](https://bookble.themilestonesapp.xyz "https://bookble.themilestonesapp.xyz").
 
