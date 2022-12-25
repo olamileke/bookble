@@ -1,17 +1,9 @@
-import {
-  Controller,
-  Post,
-  Body,
-  Res,
-  NotFoundException,
-  Req,
-  BadRequestException,
-} from '@nestjs/common';
+import { Controller, Post, Body, Res, HttpStatus, Req } from '@nestjs/common';
 import { UserService } from 'src/user/user.service';
 import { CreateTokenDto } from './dto';
 import { compare } from 'bcrypt';
 import { TokenService } from './token.service';
-import { UnguardedRoute } from 'src/utilities';
+import { handleException, UnguardedRoute } from 'src/utilities';
 import { HydratedDocument } from 'mongoose';
 import { User } from 'src/user/user.schema';
 import { Request } from 'express';
@@ -30,14 +22,26 @@ export class TokenController {
   @Post()
   async create(@Body() credentials: CreateTokenDto, @Req() req, @Res() res) {
     const user = await this.userService.findOne({ email: credentials.email });
-    if (!user) throw new NotFoundException('Incorrect username or password');
+    if (!user)
+      handleException(
+        HttpStatus.NOT_FOUND,
+        'auth-001',
+        'Incorrect Username or Password.',
+      );
 
+    handleException(
+      HttpStatus.NOT_FOUND,
+      'auth-001',
+      'Incorrect Username or Password.',
+    );
     if (!(await compare(credentials.password, user.password)))
-      throw new NotFoundException('Incorrect username or password');
-
-    if (!(await this.isDeviceVerified(user, req))) {
-      throw new BadRequestException('device is not recognized');
-    }
+      if (!(await this.isDeviceVerified(user, req))) {
+        handleException(
+          HttpStatus.BAD_REQUEST,
+          'auth-002',
+          'Device Is Not Recognized',
+        );
+      }
 
     const token = await this.tokenService.generate(user._id);
     res.status(201).json({ token });

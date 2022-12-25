@@ -1,5 +1,6 @@
-import { BadRequestException, Injectable, PipeTransform } from '@nestjs/common';
+import { Injectable, HttpStatus, PipeTransform } from '@nestjs/common';
 import { UserService } from 'src/user/user.service';
+import { handleException } from 'src/utilities';
 
 @Injectable()
 export class ResetPasswordPipe implements PipeTransform {
@@ -10,10 +11,19 @@ export class ResetPasswordPipe implements PipeTransform {
       'password_reset.token': token,
     });
 
-    if (!user) throw new BadRequestException('invalid reset token');
+    if (!user)
+      handleException(
+        HttpStatus.BAD_REQUEST,
+        'account-005',
+        'Invalid Password Reset Token',
+      );
 
     if (Date.now() > user.password_reset.expires_at.getTime())
-      throw new BadRequestException('expired reset token');
+      handleException(
+        HttpStatus.BAD_REQUEST,
+        'account-006',
+        'Expired Password Reset Token',
+      );
 
     return user;
   }

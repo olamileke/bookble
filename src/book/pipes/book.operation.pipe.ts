@@ -1,11 +1,6 @@
-import {
-  ForbiddenException,
-  Injectable,
-  NotFoundException,
-  PipeTransform,
-  Inject,
-} from '@nestjs/common';
+import { Injectable, PipeTransform, Inject, HttpStatus } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
+import { handleException } from 'src/utilities';
 import { BookService } from '../book.service';
 
 @Injectable()
@@ -19,7 +14,7 @@ export class BookOperationPipe implements PipeTransform {
     const book = await this.bookService.findOne({ _id });
     const isDelete = this.request.method.toLowerCase() === 'delete';
     if (!book) {
-      throw new NotFoundException('book does not exist');
+      handleException(HttpStatus.NOT_FOUND, 'book-001', 'Book Does Not Exist.');
     }
 
     if (isDelete && this.request.user.is_admin) {
@@ -30,6 +25,10 @@ export class BookOperationPipe implements PipeTransform {
       return book;
     }
 
-    throw new ForbiddenException('user lacks the required permission');
+    handleException(
+      HttpStatus.FORBIDDEN,
+      'book-002',
+      'User Lacks The Required Permissions.',
+    );
   }
 }

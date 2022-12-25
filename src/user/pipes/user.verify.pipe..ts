@@ -1,4 +1,5 @@
-import { Injectable, PipeTransform, BadRequestException } from '@nestjs/common';
+import { Injectable, PipeTransform, HttpStatus } from '@nestjs/common';
+import { handleException } from 'src/utilities';
 import { UserService } from '../user.service';
 
 @Injectable()
@@ -11,7 +12,11 @@ export class UserVerifyPipe implements PipeTransform {
     });
 
     if (!user) {
-      throw new BadRequestException('email verification token is invalid');
+      handleException(
+        HttpStatus.BAD_REQUEST,
+        'account-002',
+        'Email Verification Token Is Invalid',
+      );
     }
 
     return user;

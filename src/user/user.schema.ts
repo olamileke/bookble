@@ -1,5 +1,5 @@
 import { Schema, SchemaFactory, Prop } from '@nestjs/mongoose';
-import { Document, Types, Schema as MongooseSchema, Mongoose } from 'mongoose';
+import { Document, Types, Schema as MongooseSchema } from 'mongoose';
 import {
   IsString,
   IsBoolean,
