@@ -19,6 +19,9 @@ async function bootstrap() {
   );
   SwaggerModule.setup('/', app, swaggerDocument, {
     customSiteTitle: 'Bookble Documentation',
+    swaggerOptions: {
+      defaultModelsExpandDepth: -1,
+    },
   });
   await app.listen(bookbleConfig.port);
 }

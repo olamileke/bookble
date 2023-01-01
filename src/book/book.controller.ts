@@ -12,12 +12,14 @@ import {
   DefaultValuePipe,
   Put,
 } from '@nestjs/common';
+import { ApiOkResponse, ApiParam, ApiQuery } from '@nestjs/swagger';
 import { HydratedDocument } from 'mongoose';
 import { CommentService } from 'src/comment/comment.service';
 import { Book } from './book.schema';
 import { BookService } from './book.service';
 import { CreateBookDto, UpdateBookDto } from './dto';
 import { BookOperationPipe } from './pipes';
+import { BookResponse, BooksResponse } from './swagger';
 
 @Controller('/books')
 export class BookController {
@@ -26,6 +28,10 @@ export class BookController {
     private commentService: CommentService,
   ) {}
 
+  @ApiOkResponse({
+    description: 'Creates and returns a book',
+    type: BookResponse,
+  })
   @Post()
   async create(
     @Req() req,
@@ -38,6 +44,21 @@ export class BookController {
       .json({ message: 'book created successfully', book: newBook });
   }
 
+  @ApiQuery({
+    name: 'page',
+    description: 'Page of books to return',
+    required: false,
+  })
+  @ApiQuery({
+    name: 'count',
+    description: 'Number of books to return',
+    required: false,
+  })
+  @ApiOkResponse({
+    description: 'Returns a paginated list of books that belong to the user',
+    type: BooksResponse,
+    isArray: true,
+  })
   @Get()
   async getAll(
     @Req() req,
@@ -57,6 +78,15 @@ export class BookController {
       .json({ message: 'books fetched successfully', books, pagination });
   }
 
+  @ApiParam({
+    name: '_id',
+    description: '_id of the book to return',
+    required: true,
+  })
+  @ApiOkResponse({
+    description: 'Gets and returns a book with the specified _id',
+    type: BookResponse,
+  })
   @Get('/:_id')
   async get(
     @Param('_id', BookOperationPipe) book: HydratedDocument<Book>,
@@ -65,6 +95,15 @@ export class BookController {
     res.status(200).json({ message: 'book fetched successfully', book });
   }
 
+  @ApiParam({
+    name: '_id',
+    description: '_id of the book to update',
+    required: true,
+  })
+  @ApiOkResponse({
+    description: 'Updates and returns a book with the specified _id',
+    type: BookResponse,
+  })
   @Put('/:_id')
   async update(
     @Param('_id', BookOperationPipe) book: HydratedDocument<Book>,
@@ -77,6 +116,15 @@ export class BookController {
       .json({ message: 'book updated successfully', book: updated_book });
   }
 
+  @ApiParam({
+    name: '_id',
+    description: '_id of the book to delete',
+    required: true,
+  })
+  @ApiOkResponse({
+    description: 'Deletes the book with the specified _id',
+    type: '',
+  })
   @Delete('/:_id')
   async delete(
     @Param('_id', BookOperationPipe) book: HydratedDocument<Book>,
