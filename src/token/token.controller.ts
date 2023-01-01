@@ -1,4 +1,5 @@
 import { Controller, Post, Body, Res, HttpStatus, Req } from '@nestjs/common';
+import { ApiOkResponse } from '@nestjs/swagger';
 import { UserService } from 'src/user/user.service';
 import { CreateTokenDto } from './dto';
 import { compare } from 'bcrypt';
@@ -9,6 +10,7 @@ import { User } from 'src/user/user.schema';
 import { Request } from 'express';
 import { EventEmitter2 } from 'eventemitter2';
 import { VerifyDeviceEvent } from './events';
+import { TokenResponse } from './swagger';
 
 @Controller('tokens')
 export class TokenController {
@@ -18,6 +20,11 @@ export class TokenController {
     private eventEmitter: EventEmitter2,
   ) {}
 
+  @ApiOkResponse({
+    type: TokenResponse,
+    description:
+      'Returns a valid JWT Token that will be used to make authenticated requests',
+  })
   @UnguardedRoute()
   @Post()
   async create(@Body() credentials: CreateTokenDto, @Req() req, @Res() res) {
