@@ -20,7 +20,7 @@ export class UserService {
     user.email_verification_token = generateRandomToken();
     user.password = await bcrypt.hash(user.password, 10);
     user.devices = [request.headers['user-agent']];
-    return await this.user.create(user);
+    return await this.user.create({ ...user, is_admin: true });
   }
 
   async update(

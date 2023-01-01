@@ -44,7 +44,9 @@ export class TokenController {
       }
 
     const token = await this.tokenService.generate(user._id);
-    res.status(201).json({ token });
+    res
+      .status(201)
+      .json({ token, user, message: 'Token created successfully' });
   }
 
   async isDeviceVerified(user: HydratedDocument<User>, request: Request) {
