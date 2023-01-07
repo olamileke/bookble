@@ -53,21 +53,21 @@ export class MailService {
     template: string,
     templateOptions: { [key: string]: string },
   ) {
-    const client = this.initClient();
-    const templatePath = this.generateTemplatePath(template);
-    renderFile(
-      templatePath,
-      {
-        ...this.generateTemplateOptions({ ...templateOptions }),
-      },
-      (error, html) => {
-        if (error) {
-          throw error;
-        }
-        mailData.html = html;
-        client.messages.create(bookbleConfig.mailDomain, mailData);
-      },
-    );
+    // const client = this.initClient();
+    // const templatePath = this.generateTemplatePath(template);
+    // renderFile(
+    //   templatePath,
+    //   {
+    //     ...this.generateTemplateOptions({ ...templateOptions }),
+    //   },
+    //   (error, html) => {
+    //     if (error) {
+    //       throw error;
+    //     }
+    //     mailData.html = html;
+    //     client.messages.create(bookbleConfig.mailDomain, mailData);
+    //   },
+    // );
   }
 
   generateTemplatePath(template: string) {
