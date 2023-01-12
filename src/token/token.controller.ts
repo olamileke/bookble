@@ -36,19 +36,12 @@ export class TokenController {
         'Incorrect Username or Password.',
       );
 
-    handleException(
-      HttpStatus.NOT_FOUND,
-      'auth-001',
-      'Incorrect Username or Password.',
-    );
     if (!(await compare(credentials.password, user.password)))
-      if (!(await this.isDeviceVerified(user, req))) {
-        handleException(
-          HttpStatus.BAD_REQUEST,
-          'auth-002',
-          'Device Is Not Recognized',
-        );
-      }
+      handleException(
+        HttpStatus.BAD_REQUEST,
+        'auth-002',
+        'Device Is Not Recognized',
+      );
 
     const token = await this.tokenService.generate(user._id);
     res
