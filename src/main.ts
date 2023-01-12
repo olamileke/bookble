@@ -23,6 +23,9 @@ async function bootstrap() {
       defaultModelsExpandDepth: -1,
     },
   });
+  app.enableCors({
+    origin: true,
+  });
   await app.listen(bookbleConfig.port);
 }
 bootstrap();
